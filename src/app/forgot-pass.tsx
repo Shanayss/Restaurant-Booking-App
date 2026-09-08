@@ -12,34 +12,36 @@ import {
   View,
 } from "react-native";
 
+import Button from "@/components/Button";
 import { Ionicons } from "@expo/vector-icons";
 import { BlurView } from "expo-blur";
 import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
 import { SafeAreaView } from "react-native-safe-area-context";
 
-import Button from "@/components/Button";
+export default function ForgotPass() { 
+  const [email, setEmail] = useState(""); 
+  const [errorMessage, setErrorMessage] = useState("");
 
-export default function ForgotPass() {
-  const [email, setEmail] = useState("");
+  const handleReset = () => { 
+    const cleanEmail = email.trim(); 
 
-  const handleReset = () => {
-    const cleanEmail = email.trim();
-
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) {
-      Alert.alert(
-        "Invalid Email",
-        "Please enter a valid email address."
-      );
-
-      return;
-    }
-
-    Alert.alert(
-      "Reset Link Sent",
-      Password reset instructions have been sent to ${cleanEmail}.
-    );
-  };
+    setErrorMessage(""); 
+    
+    if (!cleanEmail) { 
+      setErrorMessage("Please enter your email address."); 
+      return; 
+    } 
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(cleanEmail)) { 
+      setErrorMessage("Please enter a valid email address."); 
+      return; 
+    } 
+    
+    Alert.alert( 
+      "Reset Link Sent", 
+      `Password reset instructions have been sent to ${cleanEmail}.` 
+    ); 
+};
 
   return (
     <LinearGradient
@@ -53,7 +55,6 @@ export default function ForgotPass() {
           behavior={Platform.OS === "ios" ? "padding" : undefined}
         >
           <View style={styles.container}>
-
             {/* Card */}
             <BlurView
               intensity={35}
@@ -97,7 +98,10 @@ export default function ForgotPass() {
                   <TextInput
                     style={styles.input}
                     value={email}
-                    onChangeText={setEmail}
+                    onChangeText={(text) => {
+                      setEmail(text);
+                      setErrorMessage("");
+                    }}
                     placeholder="example@table.com"
                     placeholderTextColor="#626b68"
                     keyboardType="email-address"
@@ -110,6 +114,13 @@ export default function ForgotPass() {
                 </View>
               </View>
 
+              {/* Error Message */}
+              {errorMessage ? (
+                <Text style={styles.errorText}>
+                  {errorMessage}
+                </Text>
+              ) : null}
+              
               {/* Send Reset Link Button */}
               <Button
                 buttonText={"Send Reset Link"}
@@ -305,6 +316,13 @@ const styles = StyleSheet.create({
     color: "#858e8a",
     fontSize: 16,
     marginHorizontal: 14,
+  },
+
+  errorText: {
+  color: "#d98275",
+  fontSize: 14,
+  marginBottom: 12,
+  marginTop: -4,
   },
 
   // Back Button
