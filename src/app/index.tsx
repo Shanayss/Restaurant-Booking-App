@@ -1,5 +1,6 @@
 
-import React, { useState } from "react";
+import { useState } from "react";
+
 import {
   Alert,
   Image,
@@ -12,11 +13,13 @@ import {
   View,
 } from "react-native";
 
-import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons } from "@expo/vector-icons";
-import { LinearGradient } from "expo-linear-gradient";
 import { BlurView } from "expo-blur";
+import { LinearGradient } from "expo-linear-gradient";
 import { router } from "expo-router";
+import { SafeAreaView } from "react-native-safe-area-context";
+
+import Button from "@/components/Button";
 
 export default function LoginScreen() {
   // Form states
@@ -62,12 +65,12 @@ export default function LoginScreen() {
   };
 
   return (
-          <LinearGradient
-        colors={["#3d1916", "#702823", "#5b1c1c", "#07100d"]}
-        locations={[0, 0.35, 0.7, 1]}
-        style={styles.gradient}
-      >
-    <SafeAreaView style={styles.safeArea}>
+    <LinearGradient
+      colors={["#3d1916", "#702823", "#5b1c1c", "#07100d"]}
+      locations={[0, 0.35, 0.7, 1]}
+      style={styles.gradient}
+    >
+      <SafeAreaView style={styles.safeArea}>
         <KeyboardAvoidingView
           style={styles.keyboardView}
           behavior={Platform.OS === "ios" ? "padding" : undefined}
@@ -80,10 +83,11 @@ export default function LoginScreen() {
             >
               {/* Header */}
               <View style={styles.header}>
-              <Image
-                source={require("../../assets/images/resto-name.png")} style={styles.logo}
-                resizeMode="contain"
-              />
+                <Image
+                  source={require("../../assets/images/resto-name.png")}
+                  style={styles.logo}
+                  resizeMode="contain"
+                />
               </View>
 
               {/* Email */}
@@ -164,17 +168,10 @@ export default function LoginScreen() {
               </View>
 
               {/* Login Button */}
-              <Pressable
+              <Button
+                buttonText= {"Log In"}
                 onPress={handleLogin}
-                style={({ pressed }) => [
-                  styles.loginButton,
-                  pressed && styles.pressed,
-                ]}
-              >
-                <Text style={styles.loginButtonText}>
-                  Log In
-                </Text>
-              </Pressable>
+              />
 
               {/* Divider */}
               <View style={styles.orContainer}>
@@ -228,7 +225,7 @@ export default function LoginScreen() {
             </Text>
           </View>
         </KeyboardAvoidingView>
-         </SafeAreaView>
+      </SafeAreaView>
     </LinearGradient>
   );
 }
@@ -271,12 +268,6 @@ const styles = StyleSheet.create({
   header: {
     marginBottom: 29,
   },
-
-  headerText: {
-    flex: 1,
-    paddingRight: 10,
-  },
-
 
   // Logo
   logo: {
@@ -331,26 +322,6 @@ const styles = StyleSheet.create({
   eyeButton: {
     padding: 4,
     marginLeft: 5,
-  },
-
-  // Buttons
-  loginButton: {
-    height: 59,
-    backgroundColor: "#CFA04A",
-    borderRadius: 16,
-    justifyContent: "center",
-    alignItems: "center",
-    marginTop: 2,
-  },
-
-  loginButtonText: {
-    color: "#101512",
-    fontSize: 19,
-    fontWeight: "500",
-  },
-
-  pressed: {
-    opacity: 0.72,
   },
 
   // Divider
@@ -414,6 +385,11 @@ const styles = StyleSheet.create({
   signupLink: {
     color: "#d9ae75",
     fontSize: 15,
+  },
+
+  // Pressed
+  pressed: {
+    opacity: 0.72,
   },
 
   // Bottom Text
