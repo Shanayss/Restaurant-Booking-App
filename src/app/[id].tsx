@@ -1,5 +1,6 @@
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router, useLocalSearchParams } from 'expo-router';
 import {
   Image,
   ScrollView,
@@ -9,8 +10,22 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
+import { MENU_ITEMS } from '@/data/menuData';
 
 export default function DetailsScreen() {
+  const { id } = useLocalSearchParams<{ id: string }>();
+  const item = MENU_ITEMS.find((menuItem) => menuItem.id === id);
+
+  if (!item) {
+    return (
+      <SafeAreaView style={styles.safeArea}>
+        <View style={styles.notFoundContainer}>
+          <Text style={styles.notFoundText}>Menu item not found.</Text>
+        </View>
+      </SafeAreaView>
+    );
+  }
+
   return (
     <LinearGradient
       colors={['#3d1916', '#702823', '#5b1c1c', '#07100d']}
@@ -21,10 +36,10 @@ export default function DetailsScreen() {
         <ScrollView contentContainerStyle={styles.container}>
           {/* Top Header Navigation Bar */}
           <View style={styles.topBar}>
-            <TouchableOpacity style={styles.iconButton}>
+            <TouchableOpacity style={styles.iconButton} onPress={() => router.back()}>
               <Ionicons name="arrow-back" size={24} color="#fffaf6" />
             </TouchableOpacity>
-            <Text style={styles.headerTitle}>Item Details</Text>
+            <Text style={styles.headerTitle}>ITEM DETAILS</Text>
             <TouchableOpacity style={styles.iconButton}>
               <Ionicons name="heart-outline" size={24} color="#CFA04A" />
             </TouchableOpacity>
@@ -34,7 +49,7 @@ export default function DetailsScreen() {
           <View style={styles.imageContainer}>
             <Image
               source={{
-                uri: 'https://images.unsplash.com/photo-1544025162-d76694265947?w=600&q=80',
+                uri: item.image,
               }}
               style={styles.heroImage}
             />
@@ -43,22 +58,22 @@ export default function DetailsScreen() {
           {/* Content Card */}
           <View style={styles.contentCard}>
             <View style={styles.categoryRow}>
-              <Text style={styles.category}>Signature Grill</Text>
+              <Text style={styles.category}>{item.category}</Text>
               <View style={styles.ratingBadge}>
                 <Ionicons name="star" size={14} color="#CFA04A" />
-                <Text style={styles.ratingText}>4.9</Text>
+                <Text style={styles.ratingText}>{item.rating}</Text>
               </View>
             </View>
 
-            <Text style={styles.title}>Smoked Grilled Ribs</Text>
-            <Text style={styles.price}>₱450</Text>
+            <Text style={styles.id}>ID: {item.id}</Text>
+            <Text style={styles.title}>{item.name}</Text>
+            <Text style={styles.price}>{item.price}</Text>
 
             <View style={styles.divider} />
 
             <Text style={styles.sectionTitle}>Description</Text>
             <Text style={styles.description}>
-              Tender pork ribs slow-cooked and smoked to perfection with our
-              secret BBQ glaze. Served hot straight off the grill.
+              {item.description}
             </Text>
 
             {/* Action Bar */}
@@ -76,6 +91,8 @@ export default function DetailsScreen() {
 const styles = StyleSheet.create({
   gradient: { flex: 1 },
   safeArea: { flex: 1 },
+  notFoundContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
+  notFoundText: { color: '#fffaf6', fontSize: 16 },
   container: { paddingBottom: 30 },
   topBar: {
     flexDirection: 'row',
@@ -112,6 +129,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   category: { color: '#CFA04A', fontSize: 13, fontWeight: '600' },
+  id: { color: '#aab4b0', fontSize: 13, marginTop: 14 },
   ratingBadge: {
     flexDirection: 'row',
     alignItems: 'center',

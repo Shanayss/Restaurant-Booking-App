@@ -1,9 +1,11 @@
 import { MENU_ITEMS, MenuItem } from '@/data/menuData';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
+import { router } from 'expo-router';
 import {
   FlatList,
   Image,
+  Pressable,
   StyleSheet,
   Text,
   View
@@ -12,7 +14,15 @@ import { SafeAreaView } from 'react-native-safe-area-context';
 
 export default function HomeScreen() {
   const renderMenuItem = ({ item }: { item: MenuItem }) => (
-    <View style={styles.card}>
+    <Pressable
+      style={({ pressed }) => [styles.card, pressed && styles.cardPressed]}
+      onPress={() =>
+        router.push({
+          pathname: '/[id]',
+          params: { id: item.id },
+        })
+      }
+    >
       <Image source={{ uri: item.image }} style={styles.cardImage} />
       <View style={styles.cardDetails}>
         <View style={styles.cardHeader}>
@@ -34,7 +44,7 @@ export default function HomeScreen() {
           </View>
         </View>
       </View>
-    </View>
+    </Pressable>
   );
 
   return (
@@ -85,6 +95,7 @@ const styles = StyleSheet.create({
     marginBottom: 16,
     overflow: 'hidden',
   },
+  cardPressed: { opacity: 0.8 },
   cardImage: { width: '100%', height: 160 },
   cardDetails: { padding: 14 },
   cardHeader: {
