@@ -1,3 +1,4 @@
+import { MENU_ITEMS } from '@/data/menuData';
 import { Ionicons } from '@expo/vector-icons';
 import { LinearGradient } from 'expo-linear-gradient';
 import { router, useLocalSearchParams } from 'expo-router';
@@ -10,16 +11,31 @@ import {
   View,
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
-import { MENU_ITEMS } from '@/data/menuData';
 
 export default function DetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
   const item = MENU_ITEMS.find((menuItem) => menuItem.id === id);
+  const handleBack = () => {
+    if (router.canGoBack()) {
+      router.back();
+    } else {
+      router.replace('/home');
+    }
+  };
 
   if (!item) {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.notFoundContainer}>
+          <TouchableOpacity
+            accessibilityRole="button"
+            accessibilityLabel="Back to Home"
+            style={styles.backButton}
+            onPress={handleBack}
+          >
+            <Ionicons name="arrow-back" size={20} color="#fffaf6" />
+            <Text style={styles.backButtonText}>Back</Text>
+          </TouchableOpacity>
           <Text style={styles.notFoundText}>Menu item not found.</Text>
         </View>
       </SafeAreaView>
@@ -36,8 +52,14 @@ export default function DetailsScreen() {
         <ScrollView contentContainerStyle={styles.container}>
           {/* Top Header Navigation Bar */}
           <View style={styles.topBar}>
-            <TouchableOpacity style={styles.iconButton} onPress={() => router.back()}>
-              <Ionicons name="arrow-back" size={24} color="#fffaf6" />
+            <TouchableOpacity
+              accessibilityRole="button"
+              accessibilityLabel="Back to Home"
+              style={styles.backButton}
+              onPress={handleBack}
+            >
+              <Ionicons name="arrow-back" size={20} color="#fffaf6" />
+              <Text style={styles.backButtonText}>Back</Text>
             </TouchableOpacity>
             <Text style={styles.headerTitle}>ITEM DETAILS</Text>
             <TouchableOpacity style={styles.iconButton}>
@@ -65,7 +87,6 @@ export default function DetailsScreen() {
               </View>
             </View>
 
-            <Text style={styles.id}>ID: {item.id}</Text>
             <Text style={styles.title}>{item.name}</Text>
             <Text style={styles.price}>{item.price}</Text>
 
@@ -93,6 +114,14 @@ const styles = StyleSheet.create({
   safeArea: { flex: 1 },
   notFoundContainer: { flex: 1, justifyContent: 'center', alignItems: 'center' },
   notFoundText: { color: '#fffaf6', fontSize: 16 },
+  backButton: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    gap: 4,
+    paddingHorizontal: 8,
+    paddingVertical: 8,
+  },
+  backButtonText: { color: '#fffaf6', fontSize: 14, fontWeight: '600' },
   container: { paddingBottom: 30 },
   topBar: {
     flexDirection: 'row',
