@@ -15,8 +15,11 @@ import Button from '@/components/Button';
 import Divider from '@/components/Divider';
 import InputField from '@/components/InputField';
 import SurfaceCard from '@/components/SurfaceCard';
+import { useUserContext } from '@/context/UserContext';
+import { STORED_CUSTOMERS } from '@/data/customerData';
 
 export default function LoginScreen() {
+  const { signIn } = useUserContext();
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
@@ -42,6 +45,22 @@ export default function LoginScreen() {
       return;
     }
 
+    const customer = STORED_CUSTOMERS.find(
+      (storedCustomer) =>
+        storedCustomer.email.toLowerCase() === cleanEmail.toLowerCase() &&
+        storedCustomer.password === password,
+    );
+
+    if (!customer) {
+      setErrorMessage('Email or password is incorrect.');
+      return;
+    }
+
+    signIn({
+      id: customer.id,
+      name: customer.name,
+      email: customer.email,
+    });
     router.replace('/home');
   };
 

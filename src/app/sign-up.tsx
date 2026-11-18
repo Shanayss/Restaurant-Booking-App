@@ -55,7 +55,11 @@ export default function SignUpScreen() {
       return;
     }
 
-    router.replace('/home');
+    Alert.alert(
+      'Demo Account',
+      'This demo uses a preloaded customer account. Please log in with the demo account details.',
+      [{ text: 'OK', onPress: () => router.replace('/') }],
+    );
   };
 
   return (

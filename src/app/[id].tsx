@@ -12,11 +12,22 @@ import Button from '@/components/Button';
 import RatingBadge from '@/components/RatingBadge';
 import ScreenBackground from '@/components/ScreenBackground';
 import SurfaceCard from '@/components/SurfaceCard';
+import { useUserContext } from '@/context/UserContext';
 import { MENU_ITEMS } from '@/data/menuData';
 
 export default function DetailsScreen() {
   const { id } = useLocalSearchParams<{ id: string }>();
+  const {
+    user,
+    favoriteItemIds,
+    draftDishIds,
+    toggleFavorite,
+    addDishToBooking,
+  } = useUserContext();
   const item = MENU_ITEMS.find((menuItem) => menuItem.id === id);
+  const isFavorite = item ? favoriteItemIds.includes(item.id) : false;
+  const isAddedToBooking =
+    item !== undefined && draftDishIds.includes(item.id);
 
   const handleBack = () => {
     if (router.canGoBack()) {
@@ -61,10 +72,23 @@ export default function DetailsScreen() {
           <Text style={styles.headerTitle}>ITEM DETAILS</Text>
           <TouchableOpacity
             accessibilityRole="button"
-            accessibilityLabel="Add to favorites"
+            accessibilityLabel={
+              isFavorite ? 'Remove from favorites' : 'Add to favorites'
+            }
             style={styles.iconButton}
+            onPress={() => {
+              if (!user) {
+                router.push('/');
+                return;
+              }
+              toggleFavorite(item.id);
+            }}
           >
-            <Ionicons name="heart-outline" size={24} color="#CFA04A" />
+            <Ionicons
+              name={isFavorite ? 'heart' : 'heart-outline'}
+              size={24}
+              color="#CFA04A"
+            />
           </TouchableOpacity>
         </View>
 
@@ -87,10 +111,28 @@ export default function DetailsScreen() {
           <Text style={styles.description}>{item.description}</Text>
 
           <Button
-            title="Book Table for This Dish"
-            icon={<Ionicons name="restaurant-outline" size={20} color="#101512" />}
+            title={isAddedToBooking ? 'Added to Booking' : 'Add Dish to Booking'}
+            icon={
+              <Ionicons
+                name={
+                  isAddedToBooking
+                    ? 'checkmark-circle-outline'
+                    : 'restaurant-outline'
+                }
+                size={20}
+                color="#101512"
+              />
+            }
             style={styles.bookButton}
             textStyle={styles.bookButtonText}
+            disabled={isAddedToBooking}
+            onPress={() => {
+              if (!user) {
+                router.push('/');
+                return;
+              }
+              addDishToBooking(item.id);
+            }}
           />
         </SurfaceCard>
       </ScrollView>
