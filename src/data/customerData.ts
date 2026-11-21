@@ -3,15 +3,22 @@ export interface StoredCustomer {
   name: string;
   email: string;
   password: string;
-  role: 'customer';
+  role: "customer";
 }
 
 export const STORED_CUSTOMERS: StoredCustomer[] = [
   {
-    id: 'c1',
-    name: 'Chanice Caboverde',
-    email: 'chanice@gmail.com',
-    password: 'chanice123',
-    role: 'customer',
+    id: "c1",
+    name: "Chanice Caboverde",
+    email: "chanice@gmail.com",
+    password: "chanice123",
+    role: "customer",
+  },
+  {
+    id: "c3",
+    name: "Allen Literato",
+    email: "literato.allen@gmail.com",
+    password: "mwehehe18",
+    role: "customer",
   },
 ];
