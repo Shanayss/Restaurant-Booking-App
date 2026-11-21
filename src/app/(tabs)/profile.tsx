@@ -7,7 +7,12 @@ import SurfaceCard from '@/components/SurfaceCard';
 import { useUserContext } from '@/context/UserContext';
 
 export default function CustomerProfileScreen() {
-  const { user } = useUserContext();
+  const { user, signOut } = useUserContext();
+
+  const handleLogout = () => {
+    signOut();
+    router.replace('/');
+  };
 
   return (
     <ScreenBackground>
@@ -21,6 +26,11 @@ export default function CustomerProfileScreen() {
             <Text style={styles.name}>{user.name}</Text>
             <Text style={styles.label}>Customer email</Text>
             <Text style={styles.email}>{user.email}</Text>
+            <Button
+              title="Log Out"
+              style={styles.loginButton}
+              onPress={handleLogout}
+            />
           </SurfaceCard>
         ) : (
           <SurfaceCard variant="solid" style={styles.profileCard}>

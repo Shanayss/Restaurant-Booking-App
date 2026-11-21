@@ -12,4 +12,10 @@ export const STORED_CUSTOMERS: StoredCustomer[] = [
     email: 'chanice@gmail.com',
     password: 'chanice123',
   },
+  {
+    id: 'c2',
+    name: 'Kelly Angela',
+    email: 'kellyangela@gmail.com',
+    password: 'kean123',
+  },
 ];

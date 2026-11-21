@@ -61,6 +61,7 @@ export default function UserProvider({ children }: UserProviderProps) {
         draftDishIds,
         reservations,
         signIn: setUser,
+        signOut: () => setUser(null),
         toggleFavorite,
         addDishToBooking,
         removeDishFromBooking,

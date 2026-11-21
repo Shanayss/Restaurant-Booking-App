@@ -25,6 +25,7 @@ export interface UserContextValue {
   draftDishIds: string[];
   reservations: Reservation[];
   signIn: (user: User) => void;
+  signOut: () => void;
   toggleFavorite: (itemId: string) => void;
   addDishToBooking: (dishId: string) => void;
   removeDishFromBooking: (dishId: string) => void;
