@@ -5,6 +5,8 @@ import {
   type ReservationDetails,
   type User,
 } from "@/context/UserContext";
+import { STORED_CUSTOMERS } from "@/data/customerData";
+import { STORED_STAFF } from "@/data/staffData";
 import { useState, type ReactNode } from "react";
 
 interface UserProviderProps {
@@ -18,15 +20,46 @@ export default function UserProvider({ children }: UserProviderProps) {
   const [reservations, setReservations] = useState<Reservation[]>([]);
 
   const updateProfile = (details: ProfileUpdateDetails) => {
-    setUser((currentUser) =>
-      currentUser
-        ? {
-            ...currentUser,
-            name: details.name,
-            email: details.email,
-          }
-        : null,
+    if (!user) {
+      return "Log in to update your profile.";
+    }
+
+    const accounts = [...STORED_CUSTOMERS, ...STORED_STAFF];
+    const emailTaken = accounts.some(
+      (account) =>
+        account.id !== user.id &&
+        account.email.toLowerCase() === details.email.toLowerCase(),
     );
+
+    if (emailTaken) {
+      return "That email is already used by another account.";
+    }
+
+    const storedAccount = accounts.find((account) => account.id === user.id);
+
+    if (storedAccount) {
+      storedAccount.name = details.name;
+      storedAccount.email = details.email;
+    }
+
+    setUser({
+      ...user,
+      name: details.name,
+      email: details.email,
+    });
+    setReservations((currentReservations) =>
+      currentReservations.map((reservation) =>
+        reservation.userId === user.id
+          ? {
+              ...reservation,
+              customerName: details.name,
+              customerEmail: details.email,
+            }
+          : reservation,
+      ),
+    );
+
+    return null;
   };
 
   const toggleFavorite = (itemId: string) => {

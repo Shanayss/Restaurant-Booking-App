@@ -37,7 +37,7 @@ export interface UserContextValue {
   reservations: Reservation[];
   signIn: (user: User) => void;
   signOut: () => void;
-  updateProfile: (details: ProfileUpdateDetails) => void;
+  updateProfile: (details: ProfileUpdateDetails) => string | null;
   updateReservationStatus: (
     reservationId: string,
     status: Reservation["status"],

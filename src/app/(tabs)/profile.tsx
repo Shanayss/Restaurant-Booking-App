@@ -6,7 +6,7 @@ import { useUserContext } from "@/context/UserContext";
 import { Ionicons } from "@expo/vector-icons";
 import { router } from "expo-router";
 import { useState } from "react";
-import { StyleSheet, Text, View } from "react-native";
+import { ScrollView, StyleSheet, Text, View } from "react-native";
 
 export default function CustomerProfileScreen() {
   const { user, signOut, updateProfile } = useUserContext();
@@ -41,13 +41,24 @@ export default function CustomerProfileScreen() {
       return;
     }
 
-    updateProfile({
+    const updateError = updateProfile({
       name: trimmedName,
       email: trimmedEmail,
     });
+
+    if (updateError) {
+      setErrorMessage(updateError);
+      return;
+    }
+
     setIsEditing(false);
     setErrorMessage("");
     setSuccessMessage("Profile details updated.");
+  };
+
+  const handleCancelEdit = () => {
+    setIsEditing(false);
+    setErrorMessage("");
   };
 
   const handleLogout = () => {
@@ -59,8 +70,12 @@ export default function CustomerProfileScreen() {
   };
 
   return (
-    <ScreenBackground>
-      <View style={styles.container}>
+    <ScreenBackground edges={["top", "left", "right"]}>
+      <ScrollView
+        contentContainerStyle={styles.container}
+        keyboardShouldPersistTaps="handled"
+        showsVerticalScrollIndicator={false}
+      >
         <Text style={styles.headerTitle}>MY PROFILE</Text>
         {user ? (
           <SurfaceCard variant="solid" style={styles.profileCard}>
@@ -90,6 +105,7 @@ export default function CustomerProfileScreen() {
                   placeholder="Enter your email"
                   keyboardType="email-address"
                   autoCapitalize="none"
+                  autoCorrect={false}
                 />
                 {errorMessage ? (
                   <Text style={styles.errorMessage}>{errorMessage}</Text>
@@ -104,16 +120,13 @@ export default function CustomerProfileScreen() {
                   variant="plain"
                   textStyle={styles.cancelText}
                   style={styles.cancelButton}
-                  onPress={() => {
-                    setIsEditing(false);
-                    setErrorMessage("");
-                  }}
+                  onPress={handleCancelEdit}
                 />
               </View>
             ) : (
               <>
                 <Text style={styles.name}>{user.name}</Text>
-                <Text style={styles.label}>Customer email</Text>
+                <Text style={styles.label}>Email</Text>
                 <Text style={styles.email}>{user.email}</Text>
                 {successMessage ? (
                   <Text style={styles.successMessage}>{successMessage}</Text>
@@ -143,15 +156,16 @@ export default function CustomerProfileScreen() {
             />
           </SurfaceCard>
         )}
-      </View>
+      </ScrollView>
     </ScreenBackground>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     paddingHorizontal: 20,
+    paddingBottom: 28,
   },
   headerTitle: {
     color: "#fffaf6",
