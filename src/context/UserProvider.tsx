@@ -1,10 +1,11 @@
-import { useState, type ReactNode } from 'react';
 import {
   UserContext,
+  type ProfileUpdateDetails,
   type Reservation,
   type ReservationDetails,
   type User,
-} from '@/context/UserContext';
+} from "@/context/UserContext";
+import { useState, type ReactNode } from "react";
 
 interface UserProviderProps {
   children: ReactNode;
@@ -15,6 +16,18 @@ export default function UserProvider({ children }: UserProviderProps) {
   const [favoriteItemIds, setFavoriteItemIds] = useState<string[]>([]);
   const [draftDishIds, setDraftDishIds] = useState<string[]>([]);
   const [reservations, setReservations] = useState<Reservation[]>([]);
+
+  const updateProfile = (details: ProfileUpdateDetails) => {
+    setUser((currentUser) =>
+      currentUser
+        ? {
+            ...currentUser,
+            name: details.name,
+            email: details.email,
+          }
+        : null,
+    );
+  };
 
   const toggleFavorite = (itemId: string) => {
     setFavoriteItemIds((currentIds) =>
@@ -50,7 +63,7 @@ export default function UserProvider({ children }: UserProviderProps) {
         customerName: user.name,
         customerEmail: user.email,
         dishIds: [...draftDishIds],
-        status: 'pending',
+        status: "pending",
       },
     ]);
     setDraftDishIds([]);
@@ -58,7 +71,7 @@ export default function UserProvider({ children }: UserProviderProps) {
 
   const updateReservationStatus = (
     reservationId: string,
-    status: Reservation['status'],
+    status: Reservation["status"],
   ) => {
     setReservations((currentReservations) =>
       currentReservations.map((reservation) =>
@@ -78,6 +91,7 @@ export default function UserProvider({ children }: UserProviderProps) {
         reservations,
         signIn: setUser,
         signOut: () => setUser(null),
+        updateProfile,
         updateReservationStatus,
         toggleFavorite,
         addDishToBooking,

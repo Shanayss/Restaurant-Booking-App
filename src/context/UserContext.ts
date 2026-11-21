@@ -1,4 +1,4 @@
-import { createContext, useContext } from 'react';
+import { createContext, useContext } from "react";
 
 export interface User {
   id: string;
@@ -7,7 +7,7 @@ export interface User {
   role: UserRole;
 }
 
-export type UserRole = 'customer' | 'staff' | 'admin';
+export type UserRole = "customer" | "staff" | "admin";
 
 export interface ReservationDetails {
   date: string;
@@ -22,7 +22,12 @@ export interface Reservation extends ReservationDetails {
   customerName: string;
   customerEmail: string;
   dishIds: string[];
-  status: 'pending' | 'confirmed' | 'cancelled';
+  status: "pending" | "confirmed" | "cancelled";
+}
+
+export interface ProfileUpdateDetails {
+  name: string;
+  email: string;
 }
 
 export interface UserContextValue {
@@ -32,9 +37,10 @@ export interface UserContextValue {
   reservations: Reservation[];
   signIn: (user: User) => void;
   signOut: () => void;
+  updateProfile: (details: ProfileUpdateDetails) => void;
   updateReservationStatus: (
     reservationId: string,
-    status: Reservation['status'],
+    status: Reservation["status"],
   ) => void;
   toggleFavorite: (itemId: string) => void;
   addDishToBooking: (dishId: string) => void;
@@ -48,7 +54,7 @@ export function useUserContext() {
   const context = useContext(UserContext);
 
   if (!context) {
-    throw new Error('useUserContext must be used within a UserProvider.');
+    throw new Error("useUserContext must be used within a UserProvider.");
   }
 
   return context;
