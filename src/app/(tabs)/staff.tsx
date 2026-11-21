@@ -16,7 +16,7 @@ export default function StaffBookingsScreen() {
 
   if (!canManageBookings) {
     return (
-      <ScreenBackground>
+      <ScreenBackground edges={['top', 'left', 'right']}>
         <View style={styles.container}>
           <SurfaceCard variant="solid" style={styles.emptyCard}>
             <Text style={styles.emptyTitle}>Staff access required</Text>
@@ -35,7 +35,7 @@ export default function StaffBookingsScreen() {
   }
 
   return (
-    <ScreenBackground>
+    <ScreenBackground edges={['top', 'left', 'right']}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>STAFF BOOKINGS</Text>
         <Text style={styles.subtitle}>

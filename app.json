@@ -1,12 +1,12 @@
 {
   "expo": {
-    "name": "restaurant-app",
+    "name": "Resto Grill",
     "slug": "restaurant-app",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/logo-glow.png",
     "scheme": "restaurantapp",
-    "userInterfaceStyle": "automatic",
+    "userInterfaceStyle": "dark",
     "ios": {
       "icon": "./assets/images/logo-glow.png"
     },

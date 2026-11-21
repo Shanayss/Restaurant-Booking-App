@@ -31,7 +31,7 @@ export default function StaffDashboardScreen() {
 
   if (!canManageBookings) {
     return (
-      <ScreenBackground>
+      <ScreenBackground edges={['top', 'left', 'right']}>
         <View style={styles.container}>
           <SurfaceCard variant="solid" style={styles.emptyCard}>
             <Text style={styles.emptyTitle}>Staff access required</Text>
@@ -50,7 +50,7 @@ export default function StaffDashboardScreen() {
   }
 
   return (
-    <ScreenBackground>
+    <ScreenBackground edges={['top', 'left', 'right']}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>RESTAURANT DASHBOARD</Text>
         <Text style={styles.subtitle}>Welcome, {user?.name}</Text>

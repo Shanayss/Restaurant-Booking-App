@@ -11,7 +11,7 @@ export const STORED_CUSTOMERS: StoredCustomer[] = [
     id: "c1",
     name: "Chanice Caboverde",
     email: "chanice@gmail.com",
-    password: "chanice123",
+    password: "Chanice123",
     role: "customer",
   },
   {

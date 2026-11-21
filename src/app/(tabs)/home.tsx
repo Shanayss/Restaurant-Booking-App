@@ -7,7 +7,7 @@ import { MENU_ITEMS } from '@/data/menuData';
 
 export default function HomeScreen() {
   return (
-    <ScreenBackground>
+    <ScreenBackground edges={['top', 'left', 'right']}>
       <View style={styles.container}>
         <View style={styles.header}>
           <BrandLogo style={styles.logo} />
@@ -30,6 +30,9 @@ export default function HomeScreen() {
           )}
           contentContainerStyle={styles.listContainer}
           showsVerticalScrollIndicator={false}
+          initialNumToRender={3}
+          maxToRenderPerBatch={3}
+          windowSize={5}
         />
       </View>
     </ScreenBackground>
@@ -56,6 +59,6 @@ const styles = StyleSheet.create({
     marginTop: 4,
   },
   listContainer: {
-    paddingBottom: 20,
+    paddingBottom: 24,
   },
 });

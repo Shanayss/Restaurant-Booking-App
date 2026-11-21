@@ -10,12 +10,15 @@ import {
 } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 
+type ScreenEdge = 'top' | 'right' | 'bottom' | 'left';
+
 interface ScreenBackgroundProps {
   children: ReactNode;
   style?: StyleProp<ViewStyle>;
   safeAreaStyle?: StyleProp<ViewStyle>;
   colors?: LinearGradientProps['colors'];
   locations?: LinearGradientProps['locations'];
+  edges?: ScreenEdge[];
 }
 
 export default function ScreenBackground({
@@ -24,10 +27,13 @@ export default function ScreenBackground({
   safeAreaStyle,
   colors = ['#3d1916', '#702823', '#5b1c1c', '#07100d'],
   locations = [0, 0.35, 0.7, 1],
+  edges = ['top', 'right', 'bottom', 'left'],
 }: ScreenBackgroundProps) {
   return (
     <LinearGradient colors={colors} locations={locations} style={[styles.fill, style]}>
-      <SafeAreaView style={[styles.fill, safeAreaStyle]}>{children}</SafeAreaView>
+      <SafeAreaView edges={edges} style={[styles.fill, safeAreaStyle]}>
+        {children}
+      </SafeAreaView>
     </LinearGradient>
   );
 }

@@ -97,7 +97,7 @@ export default function BookingsScreen() {
   };
 
   return (
-    <ScreenBackground>
+    <ScreenBackground edges={['top', 'left', 'right']}>
       <ScrollView contentContainerStyle={styles.container}>
         <Text style={styles.title}>MY BOOKINGS</Text>
 

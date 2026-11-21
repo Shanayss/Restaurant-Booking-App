@@ -13,7 +13,7 @@ export default function FavoritesScreen() {
   );
 
   return (
-    <ScreenBackground>
+    <ScreenBackground edges={['top', 'left', 'right']}>
       <View style={styles.container}>
         <Text style={styles.title}>MY FAVORITES</Text>
 
