@@ -17,6 +17,7 @@ import InputField from '@/components/InputField';
 import SurfaceCard from '@/components/SurfaceCard';
 import { useUserContext } from '@/context/UserContext';
 import { STORED_CUSTOMERS } from '@/data/customerData';
+import { STORED_STAFF } from '@/data/staffData';
 
 export default function LoginScreen() {
   const { signIn } = useUserContext();
@@ -45,23 +46,24 @@ export default function LoginScreen() {
       return;
     }
 
-    const customer = STORED_CUSTOMERS.find(
-      (storedCustomer) =>
-        storedCustomer.email.toLowerCase() === cleanEmail.toLowerCase() &&
-        storedCustomer.password === password,
+    const account = [...STORED_CUSTOMERS, ...STORED_STAFF].find(
+      (storedAccount) =>
+        storedAccount.email.toLowerCase() === cleanEmail.toLowerCase() &&
+        storedAccount.password === password,
     );
 
-    if (!customer) {
+    if (!account) {
       setErrorMessage('Email or password is incorrect.');
       return;
     }
 
     signIn({
-      id: customer.id,
-      name: customer.name,
-      email: customer.email,
+      id: account.id,
+      name: account.name,
+      email: account.email,
+      role: account.role,
     });
-    router.replace('/home');
+    router.replace(account.role === 'customer' ? '/home' : '/dashboard');
   };
 
   return (

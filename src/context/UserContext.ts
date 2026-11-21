@@ -4,7 +4,10 @@ export interface User {
   id: string;
   name: string;
   email: string;
+  role: UserRole;
 }
+
+export type UserRole = 'customer' | 'staff' | 'admin';
 
 export interface ReservationDetails {
   date: string;
@@ -16,7 +19,10 @@ export interface ReservationDetails {
 export interface Reservation extends ReservationDetails {
   id: string;
   userId: string;
+  customerName: string;
+  customerEmail: string;
   dishIds: string[];
+  status: 'pending' | 'confirmed' | 'cancelled';
 }
 
 export interface UserContextValue {
@@ -26,6 +32,10 @@ export interface UserContextValue {
   reservations: Reservation[];
   signIn: (user: User) => void;
   signOut: () => void;
+  updateReservationStatus: (
+    reservationId: string,
+    status: Reservation['status'],
+  ) => void;
   toggleFavorite: (itemId: string) => void;
   addDishToBooking: (dishId: string) => void;
   removeDishFromBooking: (dishId: string) => void;

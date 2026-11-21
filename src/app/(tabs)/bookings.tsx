@@ -212,6 +212,15 @@ export default function BookingsScreen() {
               variant="solid"
               style={styles.reservationCard}
             >
+              <Text
+                style={[
+                  styles.reservationStatus,
+                  reservation.status === 'confirmed' && styles.confirmedStatus,
+                  reservation.status === 'cancelled' && styles.cancelledStatus,
+                ]}
+              >
+                {reservation.status.toUpperCase()}
+              </Text>
               <Text style={styles.reservationDate}>
                 {new Date(`${reservation.date}T00:00:00`).toLocaleDateString()}
                 {' at '}
@@ -329,6 +338,18 @@ const styles = StyleSheet.create({
     color: '#fffaf6',
     fontSize: 16,
     fontWeight: '700',
+  },
+  reservationStatus: {
+    color: '#CFA04A',
+    fontSize: 11,
+    fontWeight: '700',
+    marginBottom: 7,
+  },
+  confirmedStatus: {
+    color: '#a6d6ad',
+  },
+  cancelledStatus: {
+    color: '#d98275',
   },
   reservationGuests: {
     color: '#CFA04A',

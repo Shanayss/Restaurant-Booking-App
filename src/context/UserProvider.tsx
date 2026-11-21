@@ -47,10 +47,26 @@ export default function UserProvider({ children }: UserProviderProps) {
         ...details,
         id: `${user.id}-${Date.now()}`,
         userId: user.id,
+        customerName: user.name,
+        customerEmail: user.email,
         dishIds: [...draftDishIds],
+        status: 'pending',
       },
     ]);
     setDraftDishIds([]);
+  };
+
+  const updateReservationStatus = (
+    reservationId: string,
+    status: Reservation['status'],
+  ) => {
+    setReservations((currentReservations) =>
+      currentReservations.map((reservation) =>
+        reservation.id === reservationId
+          ? { ...reservation, status }
+          : reservation,
+      ),
+    );
   };
 
   return (
@@ -62,6 +78,7 @@ export default function UserProvider({ children }: UserProviderProps) {
         reservations,
         signIn: setUser,
         signOut: () => setUser(null),
+        updateReservationStatus,
         toggleFavorite,
         addDishToBooking,
         removeDishFromBooking,
