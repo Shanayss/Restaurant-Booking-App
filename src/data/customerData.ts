@@ -24,4 +24,10 @@ export const STORED_CUSTOMERS: StoredCustomer[] = [
     email: "literato.allen@gmail.com",
     password: "mwehehe18",
   },
+  {
+    id: "c4",
+    name: "Vanessa Dajang",
+    email: "vanessada758@gmail.com",
+    password: "vanzy13",
+  },
 ];
